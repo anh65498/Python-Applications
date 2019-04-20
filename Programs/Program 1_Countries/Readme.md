@@ -2,9 +2,8 @@
 
 From input file lab1in.csv, this program parse 227 countries' names, continents, population density and literacy rates
 and
-        1. Print countries in descending order of literacy rate
-        
-        2. Print countries based on population density
+1. Print countries in descending order of literacy rate
+2. Print countries based on population density
 
 
 ### Prerequisites
