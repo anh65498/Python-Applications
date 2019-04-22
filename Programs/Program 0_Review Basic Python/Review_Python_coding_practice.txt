@@ -1,0 +1,106 @@
+
+The following is a review and reminder of good practices
+for efficient Python code.
+
+==============================================================
+1. What can be improved with this code?
+
+scoresDict = {}
+scoresDict = readData()  # readData() returns a filled dictionary
+
+
+==============================================================
+2. Is there any error with the following code?
+   What is the field separator in the input file? 
+   What can be improved with this code?
+
+
+# this code reads each line of an input file until there's an
+#  empty line, and stores fields 2 and 3 of the line as a
+#  key/value pair in a dictionary
+
+list = []
+d = dict()
+with open(filename) as infile:
+   aline = infile.readline()
+   while aline != "":  
+      aline = aline.rstrip().split()    
+      list.append(aline)
+      aline = infile.readline()
+    
+for i in range(len(list)):
+   d[lines[i][1]] = lines[i][2]
+
+
+==============================================================
+3. This code builds a dictionary of first letters as keys, 
+and matching country names in a set for the values.
+Example of a key/value pair:  'A': (Afghanistan, Albania, Algeria)
+The country names are keys in another dictionary called 
+countriesDict.
+
+Is there anything wrong with the code?
+What can be improved in the code?
+
+str1="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+lettersDict = {}
+for elem in str1:
+   aSet = set()
+   for country in countriesDict:    
+      if country.startswith(elem) :
+         aSet.add(country)
+         lettersDict[elem] = aSet
+
+
+===========================================
+4. What's good about defining this global constant
+     DEFAULT_FILE = "input.txt"
+for a program that has a default input file?
+
+
+===========================================
+5. If the input file can be opened successfully, this code reads 
+lines from the file into a list to be processed later.
+If the file can't be opened, the code prints an error message.
+
+Is there any error with the way the exception is handled?
+
+dataList = []
+try:
+   with open(filename)as infile :
+      for line in infile:
+         dataList.append(line.rstrip())       
+except IOError:
+   print("Error opening " + filename)
+
+# code to work with data in the list is here
+
+
+
+==============================================
+6. Given that an input file is made of lines of floating point values,
+one number per line. Given also that the file can be opened 
+successfully so no need to test for file open success.
+ 
+Write the most efficient code to create a list of floats from 
+the input file.
+
+
+ 
+==============================================
+7. Given L = ["CIS 41A", "CIS 28", "EWRT 10", "CHEM 1A"]
+Write the most efficient code to print one line of output, as a comma
+separated sequence of elements of L:
+        CIS 41A, CIS 28, EWRT 1, PE 10
+
+
+Write the most efficient code to print 4 lines of output
+in column format:
+CIS  41A
+CIS   28
+EWRT   1
+PE    10
+
+
+
+

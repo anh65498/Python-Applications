@@ -1,0 +1,182 @@
+Solution to CIS 41A review exercise
+
+
+The following is a review and reminder of good practices
+for efficient Python code.
+
+==============================================================
+1. What can be improved with this code?
+
+scoresDict = {}   		# 1. don't need this line
+
+scoresDict = readData()  # readData() returns a filled dictionary
+
+OR keep first line and change how readData() works:   readData(scoresDict)
+
+==============================================================
+2. Is there any error with the following code?
+   What is the field separator in the input file? 
+   What can be improved with this code?
+
+
+# this code reads each line of an input file until there's an
+#  empty line, and stores fields 2 and 3 of the line as a
+#  key/value pair in a dictionary
+
+ 
+#lines = []  don't need lines at all, and don't call it "list"
+
+d = dict()
+with open(filename) as infile:
+   aline = infile.readline()
+   while aline != "":  
+      alist = aline.rstrip().split()    
+      d[alist[1]] = alist[2]
+      aline = infile.readline()
+    
+# assumption for this code to work:
+# 1. delimiter of the line is whitespace
+# 2. at least 3 fields in the line
+# 3. file can be opened successfully
+
+
+==============================================================
+3. This code builds a dictionary of first letters as keys, 
+and matching country names in a set for the values.
+Example of a key/value pair:  'A': (Afghanistan, Albania, Algeria)
+The country names are keys in another dictionary called 
+countriesDict.
+
+Is there anything wrong with the code?
+What can be improved in the code?
+
+str1="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+lettersDict = {}
+for elem in str1:      # 26
+   aSet = set()
+   for country in countriesDict:    # 200
+      if country.startswith(elem) : # the if statement runs 26 * 200 times!
+         aSet.add(country)
+   lettersDict[elem] = aSet
+
+Better way:
+lettersDict = {}
+for country in countriesDict:
+    lettersDict[country[0]] = lettersDict.get(country[0], set()).add(country)
+
+
+Or better and shorter way:
+import collections
+
+lettersDict = collections.defaultdict(set)
+
+for country in countriesDict:
+    lettersDict[country[0]].add(country)
+
+
+
+===========================================
+4. What's good about defining this global constant
+     DEFAULT_FILE = "input.txt"
+for a program that has a default input file?
+
+easy to maintain: we can change the filename in ONE spot and the
+code will adjust accordingly
+
+
+===========================================
+5. If the input file can be opened successfully, this code reads 
+lines from the file into a list to be processed later.
+If the file can't be opened, the code prints an error message.
+
+Is there any error with the way the exception is handled?
+
+dataList = []
+try:
+   with open(filename)as infile :    # file is closed automatically
+      for line in infile:
+         dataList.append(line.rstrip())       
+except IOError:
+   print("Error opening " + filename)
+   raise SystemExit    # end program as part of exception handling
+
+# code to work with data in the list is here
+
+
+
+while True :     # loop to ask for filename as part of exception handling
+  dataList = []
+  try:
+     with open(filename)as infile :    # file is closed automatically
+        for line in infile:
+           dataList.append(line.rstrip())       
+     break
+  except IOError:
+     print("Error opening " + filename)
+     filename = input("Enter a filename: ")
+
+# code to work with data in the list is here
+
+
+
+In general, use while True only if you have to:
+- when it's a do while loop
+  which means when you need to do something once, and loop back only if you must
+
+Otherwise it's much more readable code if you specify the loop condition clearly.
+Note that none of the loops in the exercises above this one is a while True loop.
+
+
+==============================================
+6. Given that an input file is made of lines of floating point values,
+one number per line. Given also that the file can be opened 
+successfully so no need to test for file open success.
+ 
+Write the most efficient code to create a list of floats from 
+the input file.
+
+We have infile as our input file handle to the input file
+
+floatList = [float(line) for line in infile]
+
+
+ 
+==============================================
+7. Given L = ["CIS 41A", "CIS 28", "EWRT 10", "CHEM 1A"]
+Write the most efficient code to print one line of output, as a comma
+separated sequence of elements of L:
+        CIS 41A, CIS 28, EWRT 1, PE 10
+
+print(",".join(L))
+
+comprehension should be used only when you need to create an iterable
+[print(num) for num in  L]   is not a good use. Use the for loop instead.
+
+
+Write the most efficient code to print 4 lines of output
+in column format:
+CIS  41A
+CIS   28
+EWRT   1
+PE    10
+
+
+for name in L :
+   print("{:6s} {:>3s}".format(name.split[0], name.split[1]))   # use format()
+   # or:
+   print(f"{name.split[0]:6s} {name.split[1]:>3s}")      # use f-string (Python 3.6 and beyond)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
