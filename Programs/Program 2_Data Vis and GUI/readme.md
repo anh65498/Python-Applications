@@ -28,9 +28,17 @@ $ python3 lab2.py
 + **Error: Could not read input file tuition.csv.xls**:
 cd in Command Line Tool to the directory that contain all the .py file before run `$python3 lab2.py` again.
 
+#### Main Menu: 
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/main_menu.png)
 
+#### Plots 
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/tuition_trend.png)
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/room_and_board.png)
 
-
+#### College Paths 
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input.png)
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input_1.png)
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/error_msg.png)
 
 ## Authors
 
