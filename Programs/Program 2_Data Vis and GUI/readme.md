@@ -32,7 +32,7 @@ cd in Command Line Tool to the directory that contain all the .py file before ru
 
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/main_menu.png)
 
-### Plots 
+### Plots:
 #### When user click on "Plot Tuition Trend" button
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/tuition_trend.png)
 
@@ -40,7 +40,7 @@ cd in Command Line Tool to the directory that contain all the .py file before ru
 
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/room_and_board.png)
 
-### College Paths 
+### College Paths: 
 #### When user click on "Plot College Cost" button
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input.png)
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input_1.png)
