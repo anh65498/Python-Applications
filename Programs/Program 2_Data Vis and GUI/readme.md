@@ -1,6 +1,6 @@
 # College Prices Analyzer and Visualizer
 
-This program lets the user view the tuition trend, the room and board trend, and the total cost of 4 years of college of 4 college path for a range of year (1971 - 2018)
+From CSV input file (tuition.csv) containing data of average Tuition and Fees and Room and Board in 2018 Dollars, this program lets the user view the tuition trend, the room and board trend, and the total cost of 4 years of college of 4 college path for a range of year (1971-72 to 2018-19)
 
 
 ## Getting Started
