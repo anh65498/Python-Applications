@@ -161,8 +161,9 @@ def main():
 
     user_choice = getChoice()
     while(user_choice.lower() != 'q'):
-        argument = functs[user_choice][1]
-        functs[user_choice][0](argument)          # we can use this since all of them share the same parameters.
+        op = functs[user_choice]
+        argument = op[1]
+        op[0](argument)          # we can use this since all of them share the same parameters.
         user_choice = getChoice()
 
 
