@@ -98,7 +98,7 @@ class Data_Analyzer:
         data = [costs_of_4_plans[0], costs_of_4_plans[1], costs_of_4_plans[2], costs_of_4_plans[3]]
         plt.bar( (1,2,3,4), data)
         # label x and y axes
-        plt.xlabel("Types of plan")
+        plt.xlabel("Types of plan for " + str(begin_year) + " - " + str(self._grad_year))
         plt.ylabel("Cost (in dollars)")
         # adjust x-axis ticks
         plt.xticks((1,2,3,4), label)
@@ -106,5 +106,3 @@ class Data_Analyzer:
         plt.tight_layout()  # to make room for xlabel
         # plt.show()
         return costs_of_4_plans
-
-    

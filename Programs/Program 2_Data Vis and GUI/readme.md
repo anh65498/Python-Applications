@@ -30,7 +30,7 @@ $ python3 lab2.py
 + **Error: Could not read input file tuition.csv.xls**:
 cd in Command Line Tool to the directory that contain all the .py file before run `$python3 lab2.py` again.
 
-### Main Menu: 
+### Main Menu:
 
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/main_menu.png)
 
@@ -42,11 +42,19 @@ cd in Command Line Tool to the directory that contain all the .py file before ru
 
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/room_and_board.png)
 
-### College Paths: 
-#### When user click on "Plot College Cost" button
+### College Paths:
+#### When user click on "Plot College Cost" button and they enter invalid year
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input.png)
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input_1.png)
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/error_msg.png)
+
+#### When user click on "Plot College Cost" button and they enter valid year. E.g.: 2000
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input_2.png)
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input_3.png)
+
+#### When user click on "Plot College Cost" button and they press "Enter"
++ Program will assume graduation year is the latest year from input file.
+
 
 ## Authors
 
