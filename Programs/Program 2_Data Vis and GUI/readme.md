@@ -1,6 +1,6 @@
 # College Prices Analyzer and Visualizer
 
-This program lets the user view the tuition trend, the room and board trend, and the total cost of 4 years of college of 4 college path for a range pf year (1971 - 2018)
+This program lets the user view the tuition trend, the room and board trend, and the total cost of 4 years of college of 4 college path for a range of year (1971 - 2018)
 
 
 ## Getting Started
