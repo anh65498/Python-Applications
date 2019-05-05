@@ -15,6 +15,8 @@ $ pip3 install matplotlib
 
 + If you see no graph
 ```bash
+$ mkdir ~/.matplotlib
+$ touch ~/.matplotlib/matplotlibrc
 $ echo "backend: TkAgg" > ~/.matplotlib/matplotlibrc
 ```
 
