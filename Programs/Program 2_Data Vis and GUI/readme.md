@@ -14,3 +14,5 @@ Open file matplotlibrc and add
   backend: TkAgg
 into the file, then save and quit
 ```
+
+**cd in Command Line to the directory that contain all the .py file before run lab2.py. Else, Error: Could not read input file tuition.csv.xls**

@@ -1,14 +1,18 @@
 # Anh Pham
-# Analyze data
+# This file analyze the data of the colleges
 import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 class Data_Analyzer:
     def __init__(self):
-        self._filename   = "tuition.csv.xls"
+        self._filename   = "tuition.csv"
         self._start_year = 1971
         self._end_year   = 2018
         self._years = np.arange(self._start_year,self._end_year + 1)
+        self._grad_year = 0
+        # parseData()
 
     def parseData(self):
         '''
@@ -17,9 +21,9 @@ class Data_Analyzer:
                  We only work with 2018 dollar costs only.
         '''
         try:
-            self._data = np.loadtxt(self._filename, delimiter=",")
+            self._data = np.loadtxt(self._filename, delimiter=",")      # <class 'numpy.ndarray'>
             self._data = self._data[:48, :]     #watch the index ????
-        except IOError:
+        except IOError as e:
             print("Could not read input file", self._filename)
             raise SystemExit
 
@@ -27,28 +31,36 @@ class Data_Analyzer:
         '''
         Purpose: plot the tuition cost over time  for private 4-years, public 4-years, and public 2-years
         '''
-        plt.plot( self._years , self._data[:, 0], "-b", label="Private 4-year" )
-        plt.plot( self._years , self._data[:, 2], "-r", label="Public 4-year" )
-        plt.plot( self._years , self._data[:, 4], "-g", label="Public 2-year" )
+        # plt.plot( self._years , self._data[:, 0], "-b", label="Private 4-year" )
+        # plt.plot( self._years , self._data[:, 2], "-r", label="Public 4-year" )
+        # plt.plot( self._years , self._data[:, 4], "-g", label="Public 2-year" )
+
+        colorLabelList = [('-b', 'Private 4-year'), ('-r', 'Public 4-year'), ('-g','Public 2-year')]
+        for i in range(len(colorLabelList)):
+            plt.plot( self._years , self._data[:, 2*i], colorLabelList[i][0], label=colorLabelList[i][1] )
+
         plt.legend(loc="best")      # pick the best location for labels/legions
         plt.xlabel("Year")
         plt.ylabel("Tuition (dollars)")
         plt.xticks( self._years, self._years, rotation="90", fontsize="8" )
         plt.title("Tuition Trend")
-        plt.show()
+        # plt.show()
+        plt.tight_layout()  # to make room for xlabel
 
     def plot_room_and_board(self):
         '''
         Purpose: plot the room and board cost over time for private 4-years and public 4-years
         '''
-        plt.plot( self._years , self._data[:, 6], "-m", label="Private 4-year" )
-        plt.plot( self._years , self._data[:, 8], "-c", label="Public 4-year" )
+        plt.plot( self._years , self._data[:, 6] - self._data[:, 0], "-m", label="Private 4-year" )
+        plt.plot( self._years , self._data[:, 8] - self._data[:, 2], "-c", label="Public 4-year" )
         plt.legend(loc="best")      # pick the best location for labels/legions
         plt.xlabel("Year")
         plt.ylabel("Room and Board (dollars)")
         plt.xticks( self._years, self._years, rotation="90", fontsize="8" )
         plt.title("Room and Board Trend")
-        plt.show()
+        # plt.show()
+        plt.tight_layout()    # to make room for xlabel
+
 
     def retVal(funct):
         '''
@@ -68,15 +80,15 @@ class Data_Analyzer:
         Ret: tuple of 4 costs for the 4 years to implement decorator for practice
         Purpose: User enter the graduation year, and your plot will show the cost of 4 years of college for each the 4 paths above. 
         '''
-        grad_year = 0
-        while (grad_year not in range(self._start_year + 3, self._end_year + 1)):
-            grad_year = int(input("Enter year of graduation: "))
+        # grad_year = 0
+        # while (grad_year not in range(self._start_year + 3, self._end_year + 1)):
+        #     grad_year = int(input("Enter year of graduation: "))
 
-        begin_year = grad_year - 3
+        begin_year = self._grad_year - 3
         # calculating cost
-        _4_yrs_private              = self._data[begin_year - self._start_year : grad_year - self._start_year + 1, 0]
-        _4_yrs_public               = self._data[begin_year - self._start_year : grad_year - self._start_year + 1, 2]
-        _2_yrs_cc                   = self._data[begin_year - self._start_year : grad_year - self._start_year - 2 + 1, 4]
+        _4_yrs_private              = self._data[begin_year - self._start_year : self._grad_year - self._start_year + 1, 0]
+        _4_yrs_public               = self._data[begin_year - self._start_year : self._grad_year - self._start_year + 1, 2]
+        _2_yrs_cc                   = self._data[begin_year - self._start_year : self._grad_year - self._start_year - 2 + 1, 4]
         _2_yrs_public_2_yrs_private = np.concatenate((_2_yrs_cc , _4_yrs_private[2:]))
         _2_yrs_public_2_yrs_public  = np.concatenate((_2_yrs_cc , _4_yrs_public[2:]))
 
@@ -91,8 +103,8 @@ class Data_Analyzer:
         # adjust x-axis ticks
         plt.xticks((1,2,3,4), label)
         # display the plot
-        plt.show()
+        plt.tight_layout()  # to make room for xlabel
+        # plt.show()
         return costs_of_4_plans
 
-    def getEndYear(self):
-        return self._end_year
+    
