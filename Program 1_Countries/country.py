@@ -16,6 +16,9 @@ class Country:
         if mo:
             self._list = [x.strip() for x in mo.groups()]
 
+        # if line.startwith('"'):
+        #     line = line.replace(',', ';' , 1)
+        
         # Change the countries' names that contain a comma to a semicolon
         if (self._list[0].find(",") != -1):
             self._list[0] = self._list[0].replace(",", ";")

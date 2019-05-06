@@ -1,7 +1,7 @@
 import json
 from difflib import get_close_matches
 import tkinter as tk                        # for GUI
-import tkinter.messagebox as tkmb   # for error window
+
 
 class Dictionary:
     def __init__(self):
@@ -82,7 +82,7 @@ class mainWin(tk.Tk):
         definitions = '\n'.join(result)
         print(definitions)
 
-        
+
         self.L2.config(text=definitions, anchor="w", justify="left")
         # self.L2.grid(sticky="w")
 

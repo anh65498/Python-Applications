@@ -24,6 +24,8 @@ def getData(filename = DEFAULT_IN_FILE):
             for line in infile:
                 country = Country(line)
                 countryList.append(country)
+                # OR:
+                # countryList = [Country(line) for line in infile]
 
         # print the number of countries that are read in
         print("Read in {} countries\n".format(len(countryList)))
@@ -50,16 +52,19 @@ def getChoice():
     Ret:     user choice.
     Params:  none
     '''
-    print("="*60)
-    print("""l. Print countries in descending order of literacy rate
-d. Print countries based on population density
-q. Quit""")
+    print("="*60 + "\n" + "l. Print countries in descending order of literacy rate\n" + "d. Print countries based on population density\n")
+    print("q. Quit")
     print("="*60)
 
     #prompt user for correct menu choice
     user_choice = None
     while (user_choice not in ["l", "d", "q"]):
         user_choice = input("Enter your choice: ")
+    #OR:
+    # match = re.search('^[ldq]$', choice, re.I)
+    # while match == NONE:
+    #     user_choice = input("Enter your choice: ")
+
     return user_choice
 
 def retVal(funct):
