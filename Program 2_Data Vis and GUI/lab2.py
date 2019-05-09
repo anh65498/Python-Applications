@@ -14,20 +14,24 @@ import matplotlib.pyplot as plt
 
 class mainWindow(tk.Tk):
     def __init__(self):
+        super().__init__()              # run the constructor of tk. Pass nothing because this is main window
+
+        self.minsize(450,80)
+        self.geometry("+350+400")
         '''
         Purpose: Create and display the main window with 3 buttons
                     to plot tuition trend, plot room and board trend, plot college cost
                     When the user clicks X on the main window, all GUI windows should close.
         '''
+        try:
+            self.collegeData = Data_Analyzer()      # in try block because code in constructor
+        except FileNotFoundError as e:
+            # print("Could not read input file", self._filename)
+            if tkmb.showerror("File could not found", str(e), parent=self) == 'ok':
+                self.destroy()
+                raise SystemExit
 
-        self.collegeData = Data_Analyzer()
-        self.collegeData.parseData()             # add in constructor
-
-        super().__init__()              # run the constructor of tk. Pass nothing because this is main window
-        self.minsize(450,80)
-        self.geometry("+350+400")
         self.title("College Pricing from " + str(self.collegeData._start_year) + " to " + str(self.collegeData._end_year))
-
         B1 = tk.Button(self, text="plot tuition trend".title(), command=self.plotToplevel_Tuition).grid(row=0, column=0, padx=10, pady=10)
         B2 = tk.Button(self, text="plot room and board trend".title(), command=self.plotToplevel_RoomBoard).grid(row=0, column=1, padx=10, pady=10)
         B3 = tk.Button(self, text="plot college cost".title(), command=self.plotDialogWindow).grid(row=0, column=2, padx=10, pady=10)
@@ -46,6 +50,7 @@ class mainWindow(tk.Tk):
         dialogWin.grab_set()
         dialogWin.focus_set()
         dialogWin.transient(self)
+        # need protocol
         self.wait_window(dialogWin)  # tell master window to wait for the top level window to close before master resumes other tasks
         topWin = ToplevelWindow(self).plotCollegeCost(self.collegeData)
 
@@ -74,7 +79,8 @@ class ToplevelWindow(tk.Toplevel):
 
         '''
         Q: When should a variable be an instance variable (self.fig) and when should it be a local variable (fig)?
-        A: always think twice before making an instance variable. You're adding to the "bulk" of the object with every instance variable,
+        A: always think twice before making an instance variable.
+        You're adding to the "bulk" of the object with every instance variable,
         since instance variables stay around for the lifetime of the object.
         If the variable is only used within one method and is not needed by any other method, it should be a local variable.
         When the method (function) finishes running, local variables are cleared out of the run time stack so they don't stick around and unnecessarily take up space.
@@ -82,17 +88,12 @@ class ToplevelWindow(tk.Toplevel):
 
     def plotRoomBoard(self, collegeData):
         collegeData.plot_room_and_board()
-        # canvas = FigureCanvasTkAgg(self.fig, master=self)
-        # canvas.get_tk_widget().grid()   # position canvas in the window
-        # canvas.draw()
         self.drawCanvas()
 
     def plotCollegeCost(self, collegeData):
         collegeData.get_college_cost()
         self.drawCanvas()
-        # canvas = FigureCanvasTkAgg(self.fig, master=self)
-        # canvas.get_tk_widget().grid()   # position canvas in the window
-        # canvas.draw()
+
 
     def drawCanvas(self):
         canvas = FigureCanvasTkAgg(self.fig, master=self)
