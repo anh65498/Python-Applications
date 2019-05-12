@@ -13,7 +13,7 @@
 ### If user types in word that doesn't exist in database
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/5.png)
 
-## Feature feature:
+## Future feature:
 - Edit the dictionary database if user choose to add word
 
 - Need to change the filepath from direct to indirect
