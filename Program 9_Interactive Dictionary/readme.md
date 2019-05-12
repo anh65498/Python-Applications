@@ -8,7 +8,7 @@
 ### If user mispells the word
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/3.png)
 
-![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/4.png)
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/4_1.png)
 
 ### If user types in word that doesn't exist in database
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/5.png)
