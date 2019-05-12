@@ -3,7 +3,7 @@
 ### If user enters the word correctly
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/1.png )
 
-<a href="url"><img src="https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/1.png" align="center" height="300" width="500" ></a>
+<a href="url"><img src="https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/1.png" align="middle" height="300" width="700" ></a>
 
 
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/2.png)
