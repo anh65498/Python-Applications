@@ -86,7 +86,7 @@ class mainWin(tk.Tk):
             print("No word match your input.")
             self.L1.config(text=self._word, justify="left")
             self.L2.config(text="No definition found for your input", justify="left")
-            return
+            
         elif self._myDict._mispell:
             self.getCloseMatch()
         else:
