@@ -1,16 +1,16 @@
 # Interactive Dictionary
 
-### If user enter the word correctly
+### If user enters the word correctly
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/1.png)
 
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/2.png)
 
-### If user mispell the word
+### If user mispells the word
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/3.png)
 
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/4.png)
 
-### If user type in word that doesn't exist in database
+### If user types in word that doesn't exist in database
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/5.png)
 
 ## Feature feature:
