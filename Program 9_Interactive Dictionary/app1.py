@@ -27,9 +27,6 @@ class Dictionary:
         elif len(get_close_matches(word, self.dict.keys())) > 0:
             self._mispell = True
             self._close_matches = get_close_matches(word, self.dict.keys())     # list of the best “good enough” matches
-            print(self._close_matches)
-            # yn = input("Did you mean %s instead? Enter Y if yes, or N if no: " % get_close_matches(word, self.dict.keys())[0]).lower()
-        else:
             self._notFound = True
             print("Not found")
 
@@ -75,19 +72,14 @@ class mainWin(tk.Tk):
         self._myDict = Dictionary()
         result = self._myDict.translate(self._word)   # return a list of definition
 
-        print(self._myDict, "\n")
-        print(type(self._myDict), "\n\n")
-        print(result, "\n")
-        print(type(result), "\n\n")
 
-
-        # if user type BS
-        if self._myDict._notFound:       # ????? 'NoneType' object has no attribute '_found'
-            print("No word match your input.")
+        if self._myDict._notFound:       # if result=Dictionary().translate(self.word) --> 'NoneType' object has no attribute '_found'
+            # if user type BS
             self.L1.config(text=self._word, justify="left")
             self.L2.config(text="No definition found for your input", justify="left")
-            
+
         elif self._myDict._mispell:
+            # user mispell and Python find possible close matches
             self.getCloseMatch()
         else:
             # user type word correctly
@@ -100,8 +92,6 @@ class mainWin(tk.Tk):
         Display word and definition to screen, used for both when user enter right word and mispell
         '''
         # Overwrite word
-        print("Word inside printWord is", word)
-
         self.L1.config(text=word.title())
         result = self._myDict.translate(word)   # return a list of definition
 
@@ -112,7 +102,6 @@ class mainWin(tk.Tk):
             result[i] = result[i].replace(".\\n", ".\n")
 
         definitions = '\n'.join(result)
-        print(definitions)
 
         self.L2.config(text=definitions, justify="left")
 
@@ -128,7 +117,6 @@ class mainWin(tk.Tk):
         '''
         self.L1.grid_forget()
         self.L2.grid_forget()
-
 
         self._controlVar = tk.IntVar()
         self.rb1 = tk.Radiobutton(self, text=self._myDict._close_matches[0], variable=self._controlVar, value=0, command= lambda : self.chooseWord(self._controlVar))
