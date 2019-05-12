@@ -7,7 +7,7 @@ for efficient Python code.
 ==============================================================
 1. What can be improved with this code?
 
-scoresDict = {}   		# 1. don't need this line
+scoresDict = {}   		# 1. don't need this line, unless we are changing the list
 
 scoresDict = readData()  # readData() returns a filled dictionary
 
@@ -67,7 +67,6 @@ for country in countriesDict:
 
 Or better and shorter way:
 import collections
-
 lettersDict = collections.defaultdict(set)
 
 for country in countriesDict:
@@ -103,9 +102,8 @@ except IOError:
 # code to work with data in the list is here
 
 
-
+dataList = []
 while True :     # loop to ask for filename as part of exception handling
-  dataList = []
   try:
      with open(filename)as infile :    # file is closed automatically
         for line in infile:
@@ -162,9 +160,9 @@ PE    10
 
 
 for name in L :
-   print("{:6s} {:>3s}".format(name.split[0], name.split[1]))   # use format()
+   print("{:6s} {:>3s}".format(name.split()[0], name.split()[1]))   # use format()
    # or:
-   print(f"{name.split[0]:6s} {name.split[1]:>3s}")      # use f-string (Python 3.6 and beyond)
+   print(f"{name.split()[0]:6s} {name.split()[1]:>3s}")      # use f-string (Python 3.6 and beyond)
 
 
 

@@ -4,12 +4,12 @@
 import re
 
 class Country:
-    ''' Constructor
-     Purpose: Parsing input line
-              All member variables are strings
-     Params: line (str) - a line from input
-    '''
     def __init__(self, line):
+        ''' Constructor
+         Purpose: Parsing input line
+                  All member variables are strings
+         Params: line (str) - a line from input
+        '''
         self._list = []
 
         mo = re.search(r'"?([^"]*)"?\s*,([^,]*)\s*,([\d.]*),([\d.]*)', line)
