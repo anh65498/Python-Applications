@@ -26,33 +26,38 @@ class mainWindow(tk.Tk):
         try:
             self.collegeData = Data_Analyzer()      # in try block because code in constructor
         except FileNotFoundError as e:
-            # print("Could not read input file", self._filename)
+            # if file couldn't be opened, alert user via messagebox. If user click 'ok', destroy mainWindow()
             if tkmb.showerror("File could not found", str(e), parent=self) == 'ok':
                 self.destroy()
-                raise SystemExit
 
+        self._Frame = tk.Frame(self)
+        self._Frame.grid()
         self.title("College Pricing from " + str(self.collegeData._start_year) + " to " + str(self.collegeData._end_year))
-        B1 = tk.Button(self, text="plot tuition trend".title(), command=self.plotToplevel_Tuition).grid(row=0, column=0, padx=10, pady=10)
-        B2 = tk.Button(self, text="plot room and board trend".title(), command=self.plotToplevel_RoomBoard).grid(row=0, column=1, padx=10, pady=10)
-        B3 = tk.Button(self, text="plot college cost".title(), command=self.plotDialogWindow).grid(row=0, column=2, padx=10, pady=10)
+        tk.Button(self._Frame, text="plot tuition trend".title(), command= lambda : ToplevelWindow(self, self.collegeData.plot_tuition)).grid(row=0, column=0, padx=10, pady=10, sticky='e')
+        tk.Button(self._Frame, text="plot room and board trend".title(), command= lambda : ToplevelWindow(self, self.collegeData.plot_room_and_board)).grid(row=0, column=1, padx=10, pady=10, sticky='w')
+        tk.Button(self._Frame, text="plot college cost".title(), command= self.plotDialogWindow).grid(row=0, column=2, padx=10, pady=10, sticky='ew')
 
-    def plotToplevel_Tuition(self):
-        '''Purpose: create a toplevel window and call its function to plot tuition trend'''
-        topWin = ToplevelWindow(self).plotTuitionTrend(self.collegeData)
-
-    def plotToplevel_RoomBoard(self):
-        '''Purpose: create a toplevel window and call its function to plot room and board trend'''
-        topWin = ToplevelWindow(self).plotRoomBoard(self.collegeData)
+        # Refactored
+    # def plotToplevel_Tuition(self):
+    #     '''Purpose: create a toplevel window and call its function to plot tuition trend'''
+    #     topWin = ToplevelWindow(self).plotTuitionTrend(self.collegeData)
+    #
+    # def plotToplevel_RoomBoard(self):
+    #     '''Purpose: create a toplevel window and call its function to plot room and board trend'''
+    #     topWin = ToplevelWindow(self).plotRoomBoard(self.collegeData)
 
     def plotDialogWindow(self):
         '''Purpose: create a toplevel dialog window and get user's graduation year to show college options'''
         dialogWin = DialogWindow(self, self.collegeData)
-        dialogWin.grab_set()
-        dialogWin.focus_set()
-        dialogWin.transient(self)
-        # need protocol
+        # dialogWin.grab_set()              # this belongs to dialogWin. An object should set up itself.
+        # dialogWin.focus_set()             # this belongs to dialogWin. An object should set up itself.
+        # dialogWin.transient(self)         # this belongs to dialogWin. An object should set up itself.
+
         self.wait_window(dialogWin)  # tell master window to wait for the top level window to close before master resumes other tasks
-        topWin = ToplevelWindow(self).plotCollegeCost(self.collegeData)
+        year = dialogWin.getYear()
+        if year != -1:
+            ToplevelWindow(self, self.collegeData.compare_college_cost)
+
 
 
 class ToplevelWindow(tk.Toplevel):
@@ -64,39 +69,16 @@ class ToplevelWindow(tk.Toplevel):
     There can be multiple plot windows on screen if the user chooses to plot multiple times and doesn't close the plot windows.
     '''
 
-    def __init__(self, master):
+    def __init__(self, master, plotFct, *args, **kwargs):
         super().__init__(master)
         self.title("Plot")
         self.minsize(550,500)
-        self.fig = plt.figure()     # create a matplotlib figure
+        self.transient(master)  # Makes this a transient window (is always drawn on top of its master)
 
-    def plotTuitionTrend(self, collegeData):
-        collegeData.plot_tuition()
-        # canvas = FigureCanvasTkAgg(self.fig, master=self)
-        # canvas.get_tk_widget().grid()   # position canvas in the window
-        # canvas.draw()
-        self.drawCanvas()
+        fig = plt.figure()     # create a matplotlib figure
+        plotFct(*args, **kwargs)
 
-        '''
-        Q: When should a variable be an instance variable (self.fig) and when should it be a local variable (fig)?
-        A: always think twice before making an instance variable.
-        You're adding to the "bulk" of the object with every instance variable,
-        since instance variables stay around for the lifetime of the object.
-        If the variable is only used within one method and is not needed by any other method, it should be a local variable.
-        When the method (function) finishes running, local variables are cleared out of the run time stack so they don't stick around and unnecessarily take up space.
-        '''
-
-    def plotRoomBoard(self, collegeData):
-        collegeData.plot_room_and_board()
-        self.drawCanvas()
-
-    def plotCollegeCost(self, collegeData):
-        collegeData.get_college_cost()
-        self.drawCanvas()
-
-
-    def drawCanvas(self):
-        canvas = FigureCanvasTkAgg(self.fig, master=self)
+        canvas = FigureCanvasTkAgg(fig, master=self)
         canvas.get_tk_widget().grid()   # position canvas in the window
         canvas.draw()
 
@@ -122,7 +104,10 @@ class DialogWindow(tk.Toplevel):
         self.E.grid(row=0, column=1)
         self.E.bind("<Return>", self.validateYear)
 
-
+        self.grab_set()
+        self.focus_set()
+        self.transient(master)
+        self.protocol("WM_DELETE_WINDOW", lambda : self._close) # if the user uses X to close the window without entering any year, there should not be a plot. Override the X to pass back a value so that the main window doesn't plot.
 
     def validateYear(self, event):
         '''
@@ -136,7 +121,6 @@ class DialogWindow(tk.Toplevel):
             try:
                 self.collegeData._grad_year = int(self.grad_year_string.get())
                 # print(self.grad_year)
-
                 if self.collegeData._grad_year not in range(self.collegeData._start_year + 3, self.collegeData._end_year + 1):
                     self.errorFlag = True
             except ValueError:
@@ -153,13 +137,24 @@ class DialogWindow(tk.Toplevel):
         else:
             self.destroy()
 
+    def _close(self, master):
+        '''
+        Callback function
+        Purpose: if the user uses X to close the window without entering any year, there should not be a plot. Override the X to pass back a value so that the main window doesn't plot.
+        '''
+        print("Here")
+        self.grad_year_string.set(-1)
+        self.destroy()
+
+    def getYear(self):
+        return self.collegeData._grad_year
 
 def main():
 
     # # print(college._data)
     # college.plot_tuition()
     # college.plot_room_and_board()
-    # college.get_college_cost()
+    # college.compare_college_cost()
 
     app = mainWindow()
     app.mainloop()
