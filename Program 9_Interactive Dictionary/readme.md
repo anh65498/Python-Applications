@@ -1,7 +1,7 @@
 # Interactive Dictionary
 
 ### If user enters the word correctly
-![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/1.png)
+![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/1.png )
 
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Program%209_Interactive%20Dictionary/Photos%20for%20demo/2.png)
 
