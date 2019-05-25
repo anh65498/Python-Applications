@@ -175,12 +175,12 @@ class displayWindow(tk.Toplevel):
         frame.grid(row=1, padx=35)
 
         state_names = [name for name in choices]
-        park_names  = [park["fullName"] for fact in list_of_dict for park in fact["data"]]
+        park_names  = [park for park_data in list_of_dict for park in park_data["data"]]
         # prolly do zip() here
 
         for i in range(len(state_names)):
-            for j in range(len(park_names)):
-                self.listbox.insert(tk.END, state_names[i] + ": " + park_names[j])
+            for j in range(int(list_of_dict[i]["total"])):
+                self.listbox.insert(tk.END, state_names[i] + ": " + list_of_dict[i]["data"][j]["fullName"])
 
         # print(state_codes)
         # self.listbox.bind('<<ListboxSelect>>', self.callbackFct)
