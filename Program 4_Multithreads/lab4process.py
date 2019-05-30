@@ -191,29 +191,29 @@ class displayWindow(tk.Toplevel):
                 output_path =  os.path.join(directory, OUTPUT_FILE)
                 if os.path.isfile( output_path ):
                     #  If it does, warn user that the file will be overwritten. 
-                     tkmb.askokcancel("Overwritting existing file", "{} already exists. Click OK and it will be overwritten".format(OUTPUT_FILE), parent=self)
-                     # if user click ok, overwrite existing file
-                     f= open( output_path, "w")
-                     f.close()
+                    tkmb.askokcancel("Overwritting existing file", "{} already exists. Click OK and it will be overwritten".format(OUTPUT_FILE), parent=self)
+                    # if user click ok, overwrite existing file
+                    f= open( output_path, "w")
+                    f.close()
 
-                values = [self.listbox.get(idx).split(":") for idx in self.listbox.curselection()]
-                '''
-                    ['Florida ', ' De Soto National Memorial']
-                    ['Florida ', ' Gulf Islands National Seashore']
-                    ['Colorado ', ' Black Canyon Of The Gunnison National Park']
-                '''
+                    values = [self.listbox.get(idx).split(":") for idx in self.listbox.curselection()]
+                    '''
+                        ['Florida ', ' De Soto National Memorial']
+                        ['Florida ', ' Gulf Islands National Seashore']
+                        ['Colorado ', ' Black Canyon Of The Gunnison National Park']
+                    '''
 
-                with open(OUTPUT_FILE, 'a') as fh:
-                    for park in values:
-                        for data in self.dict_of_list[park[0].strip()]:
-                            if data["fullName"] == park[1].strip():
-                                description = data["description"]
-                                break
+                    with open(OUTPUT_FILE, 'a') as fh:
+                        for park in values:
+                            for data in self.dict_of_list[park[0].strip()]:
+                                if data["fullName"] == park[1].strip():
+                                    description = data["description"]
+                                    break
 
-                        fh.write( "*** "+ park[1].strip() + ", " + park[0].strip() + "\n")
-                        fh.write( description + "\n\n")
+                            fh.write( "*** "+ park[1].strip() + ", " + park[0].strip() + "\n")
+                            fh.write( description + "\n\n")
 
-            self.close(master)
+                self.close(master)
 
 
     def close(self, master) :
@@ -236,8 +236,8 @@ if __name__ == "__main__":
 # look at my data structure, review data structure in lecture 1, homework 1 and homework 2 and homework 3
     # suggestion: when fetch data, parse data for full name and description before putting it in queue
 
-# if user choose to do it again, remember previous state choice in main window
 
+# when click cancel in file dialog, close displayWind
 
 # Future feature: status_label display "Fetching Data" while thread runs and thread will replace it once it fetches data
 # Future feature: display address of the choosen park
