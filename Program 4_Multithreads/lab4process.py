@@ -10,7 +10,6 @@ import json
 import tkinter as tk
 import tkinter.messagebox as tkmb
 import multiprocessing as mp
-import pickle                           # for multiprocessing
 import os
 import tkinter.filedialog              # for file dialog
 
@@ -33,13 +32,6 @@ class MainWin(tk.Tk):
         with open(INPUT_FILE, 'r') as fh:
             self.state_dict = json.load(fh)
 
-        # self.list_to_print   = []            # list of state name : park name to display on toplevel
-        self.processes = []             # keep track of child processes
-        # self.queue = mp.Queue()      # use queue instead of list here because main proc can't wait to fetch all data like in list, main proc display the # data as soon as 1 thread fini
-        self.dataCounter = 0                # keep track of number of element in the queue of data fetched
-
-
-
         # create a main window
         super().__init__()
         self.geometry("450x350+100+100")
@@ -47,7 +39,6 @@ class MainWin(tk.Tk):
         self.protocol("WM_DELETE_WINDOW", self.close)
 
         L = tk.Label(self, text="Select up to {} states".format(MAX_STATES), anchor="center")
-        # L.grid(row=0, padx=20)
         L.pack()
 
         # create a listbox
@@ -59,7 +50,6 @@ class MainWin(tk.Tk):
 
         self.listbox.pack(side="left")
         scrollbar.pack(side="right", fill="y")         # row should be the same as listbox. ns means the widget should be stretched vertically to fill the whole cell
-        # frame.grid(row=1, padx=35)
         frame.pack()
 
         for name in self.state_dict.values():
@@ -87,29 +77,18 @@ class MainWin(tk.Tk):
             self.status_label.config(text="Fetching data for {} state(s).".format(len(self.choices)), justify="left")
             args = [[state_name, self.state_dict] for state_name in self.choices ]       # args: [ [state_name, {state_dict}], [state_name, {state_dict}], ]
 
-
-            # mp.set_start_method('spawn')       # use spawn instead of fork on Mac/Linux
-            with mp.Pool(processes=MAX_STATES) as pool:         # normal creation of pool
+            with mp.Pool(processes=MAX_STATES) as pool:
                 results = pool.map(fetchData, args)        # tuple of state_name and resultDict from fetchData all the runs.
 
-
             # blocked until all processes are done
-            d = displayWindow(self, results)
-            self.wait_window(d)
-
-            # for state_name in self.choices:
-            #     p = mp.Process(target = fetchData, args = (state_name, self.state_dict, self.choices, self.queue), name=state_name)
-            #     self.processes.append(p)
-            #     p.start()
+            displayWindow(self, results)
 
 
     def close(self):
         '''
-            Purpose: When user quit the program, end all child processes before ending main thread/main window
+            Purpose: When user quit the program, ending main thread/main window
         '''
-        for p in self.processes:
-            p.join()
-        # checked with is_alive and all proc are killed
+
         self.destroy()
 
     def callbackFct(self, event):
@@ -121,13 +100,14 @@ class MainWin(tk.Tk):
 
 def fetchData(args):
     '''
+    Must be global for processes to access
     Purpose: This global function fetch data for the state that the user chooses. 
              As it finishes fetching the data, update blank label at the bottom of the window to display the state name and the number of parks there are in the state.
     Params: args    list of tuple of different state_name but same state_dict from state_hash.json.
             Example: [ (state_name, {state_dict}), (state_name, {state_dict}), ]
     '''
 
-    state_name, state_dict = args[0], args[1]       # replace with unpacking later
+    state_name, state_dict = args
 
     for k, v in state_dict.items():
         if v == state_name:
@@ -138,19 +118,7 @@ def fetchData(args):
     page = requests.get(URL)            # may take a long time
     resultDict = page.json()
     state_name_and_park_data = (state_name, resultDict["data"])
-
-    print(resultDict, end="\n\n")
-
-    # # queue.put( list_to_print )
-    #
-    # # update status_label of mainWindow
-    # lock = mp.Lock()
-    # with lock:
-    #     dataCounter += 1
-    #     print("Number of data fetched now: ", dataCounter)
-    #
-    # if dataCounter == len(choices):       # remove this variable and replace it with length of queue
-    #     print("Finish fetching {} data".format(dataCounter))
+    # print(resultDict, end="\n\n")
 
     return state_name_and_park_data
 
@@ -254,8 +222,6 @@ class displayWindow(tk.Toplevel):
         '''
         master.status_label.config(text="", justify="left")
         self.destroy()
-
-
 
 
 def main():
