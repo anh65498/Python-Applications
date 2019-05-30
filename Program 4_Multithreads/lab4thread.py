@@ -1,8 +1,9 @@
 # Anh Pham
-# An application that lets the user look up US national parks within a state
-# so that they can plan their summer vacation trips. Once user choose the states,
-# this program will show a list of park's within those states.
-# User can then choose as many park name as possible to save to a file
+# Program description:
+#       An multithreading application that lets the user look up US national parks within a state
+#       so that they can plan their summer vacation trips. Once user choose the states,
+#       this program will show a list of park's within those states.
+#       User can then choose as many park name as possible to save to a file
 
 import requests
 import json
@@ -205,6 +206,7 @@ class displayWindow(tk.Toplevel):
             # If the user chooses to cancel from the file dialog window,
             # then the user is back at the display window again and can select parks from the listbox.
             # If the user chooses a directory, check to see if a file named "parks.txt" (global constant) already exists in the user chosen directory. 
+    
             if directory != "":
                 # change directory
                 # print("User choose: ", directory)
@@ -212,10 +214,13 @@ class displayWindow(tk.Toplevel):
                 output_path =  os.path.join(directory, OUTPUT_FILE)
                 if os.path.isfile( output_path ):
                     #  If it does, warn user that the file will be overwritten. 
-                     tkmb.askokcancel("Overwritting existing file", "{} already exists. Click OK and it will be overwritten".format(OUTPUT_FILE), parent=self)
+                     tmp = tkmb.askokcancel("Overwritting existing file", "{} already exists. Click OK and it will be overwritten".format(OUTPUT_FILE), parent=self)
+
                      # if user click ok, overwrite existing file
                      f= open( output_path, "w")
                      f.close()
+
+
 
                 values = [self.listbox.get(idx).split(":") for idx in self.listbox.curselection()]
                 '''
@@ -234,7 +239,7 @@ class displayWindow(tk.Toplevel):
                         fh.write( "*** "+ park[1].strip() + ", " + park[0].strip() + "\n")
                         fh.write( description + "\n\n")
 
-            self.close(master)
+                self.close(master)
 
 
     def close(self, master) :
@@ -256,12 +261,10 @@ if __name__ == "__main__":
 # look at my data structure, review data structure in lecture 1, homework 1 and homework 2 and homework 3
     # suggestion: when fetch data, parse data for full name and description before putting it in queue
 
-# run the program multiple times because it seems like after the first trial, RuntimeError: threads can only be started once
-# on the second run, the status label is cleared but the previous selected choice inside the listbox is still highlighted. Suggestion: get rid of fetchdata and just do queue
 # if user choose to do it again, remember previous state choice in main window
-# When the listbox of park's name is display, check when user don't choose anything and close that listbox, user get to see mainWindow
-# Choose state -> park lb -> open file dialog -> click cancel -> close park lb -> status_label is not clear out
-# stack the status_label on top of each other
+
 
 # Future feature: status_label display "Fetching Data" while thread runs and thread will replace it once it fetches data
-# future feature: display address of the choosen park
+# Future feature: display address of the choosen park
+# Future feature: scale mainwindow to size (when user enlarge the window)
+# Future feature spam click the ok button to open multiple windows to pick parks in
