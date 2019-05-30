@@ -33,7 +33,7 @@ class MainWin(tk.Tk):
             self.state_dict = json.load(fh)
 
         self.list_to_print   = []            # list of state name : park name to display on toplevel
-        self.event = threading.Event()                # for display window to run after fetching data finishes
+        # self.event = threading.Event()                # for display window to run after fetching data finishes
         self.threads = []
         self.queue = queue.Queue()      # use queue instead of list here because main thread can't wait to fetch all data like in list, main thread display the # data as soon as 1 thread fini
         self.dataCounter = 0                # keep track of number of element in the queue of data fetched
@@ -206,7 +206,7 @@ class displayWindow(tk.Toplevel):
             # If the user chooses to cancel from the file dialog window,
             # then the user is back at the display window again and can select parks from the listbox.
             # If the user chooses a directory, check to see if a file named "parks.txt" (global constant) already exists in the user chosen directory. 
-    
+
             if directory != "":
                 # change directory
                 # print("User choose: ", directory)
@@ -215,31 +215,28 @@ class displayWindow(tk.Toplevel):
                 if os.path.isfile( output_path ):
                     #  If it does, warn user that the file will be overwritten. 
                      tmp = tkmb.askokcancel("Overwritting existing file", "{} already exists. Click OK and it will be overwritten".format(OUTPUT_FILE), parent=self)
+                     if tmp is True:
+                         # if user click ok, overwrite existing file
+                         f= open( output_path, "w")
+                         f.close()
 
-                     # if user click ok, overwrite existing file
-                     f= open( output_path, "w")
-                     f.close()
+                         values = [self.listbox.get(idx).split(":") for idx in self.listbox.curselection()]
+                                # ['Florida ', ' De Soto National Memorial']
+                                # ['Florida ', ' Gulf Islands National Seashore']
+                                # ['Colorado ', ' Black Canyon Of The Gunnison National Park']
 
 
+                         with open(OUTPUT_FILE, 'a') as fh:
+                            for park in values:
+                                for data in self.dict_of_list[park[0].strip()]:
+                                    if data["fullName"] == park[1].strip():
+                                        description = data["description"]
+                                        break
 
-                values = [self.listbox.get(idx).split(":") for idx in self.listbox.curselection()]
-                '''
-                    ['Florida ', ' De Soto National Memorial']
-                    ['Florida ', ' Gulf Islands National Seashore']
-                    ['Colorado ', ' Black Canyon Of The Gunnison National Park']
-                '''
+                                fh.write( "*** "+ park[1].strip() + ", " + park[0].strip() + "\n")
+                                fh.write( description + "\n\n")
 
-                with open(OUTPUT_FILE, 'a') as fh:
-                    for park in values:
-                        for data in self.dict_of_list[park[0].strip()]:
-                            if data["fullName"] == park[1].strip():
-                                description = data["description"]
-                                break
-
-                        fh.write( "*** "+ park[1].strip() + ", " + park[0].strip() + "\n")
-                        fh.write( description + "\n\n")
-
-                self.close(master)
+                         self.close(master)
 
 
     def close(self, master) :
