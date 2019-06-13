@@ -18,3 +18,9 @@ Program 7. Network and socket programming
 Program 8. System calls and interface with C
 
 Program 9. Interactive Dictionary GUI
+
+Program 10. SoundCloud, Youtube Music Manager (incomplete)
+
+Program 11. Download De Anza College's Physics lectures 
+
+Program 12. Top 250 IMDB's Movie Database
