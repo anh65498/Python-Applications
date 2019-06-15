@@ -65,7 +65,7 @@ with socket.socket() as s :
         dataSet = pickle.loads(fromServer)
 
         # plot the data set with matplotlib
-        print("Received from server:", dataSet)
+        # print("Received from server:", dataSet)
 
         plt.plot(dataSet[0], dataSet[1])
         plt.show()

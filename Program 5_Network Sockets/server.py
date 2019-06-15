@@ -21,8 +21,7 @@ def printMinMax(funct):
     def wrapper(*args, **kwargs):
         arr  = funct(*args, **kwargs)
 #*args and **kwargs of existingFunction, not wrapper
-        print("Smallest return value: ", arr[1].min())
-        print("Biggest return value: ", arr[1].max())
+        print("Min: ", arr[1].min(), ". Max: ", arr[1].max())
         return arr
     return wrapper       # rule 2 of closure
 
@@ -38,7 +37,7 @@ def sine(frequency):
     # send the array back to client
     return (arr, np.sin(frequency * 2 * np.pi * arr))
 
-def respond(conn):
+def respond(conn, addr):
     '''
     Purpose: target function of thread, receive and send data to client request
     Params: conn - socket
@@ -47,15 +46,16 @@ def respond(conn):
         fromClient = conn.recv(1024)  # receive a tuple of graph type and argument list) from client
         user_input = pickle.loads(fromClient)
 
-        print("From client:", addr)
-        print("Received:", user_input)
+        # print("From client:", addr)
+        # print("Received:", user_input)
 
         # get choice and args for graph from client
         if user_input[0] == 'q':
+            conn.close()
             break
 
         graphType, argsList = user_input #(menu_choice, argsList)
-        print(*argsList)
+        # print(*argsList)
 
         # get dataset depending on client
         if graphType == 'p':
@@ -67,38 +67,8 @@ def respond(conn):
         bstring = pickle.dumps(dataSet)
         conn.send(bstring)
 
-# main()
-if len(sys.argv) != 3 :
-    print("This program accepts 2 arguments from CLI!")
-    sys.exit()
-
-threads = []
-try:
-    numClient  = int(sys.argv[1])
-    timeout     = int(sys.argv[2])
-    if numClient > MAXCLIENT:
-        print("This program accepts up to " + str(MAXCLIENT) + " clients please")
-        sys.exit()
-    if timeout < MIN_TIMEOUT or timeout > MAX_TIMEOUT:
-        print("This program accepts a timer between " + str(MIN_TIMEOUT) + " and " + str(MAX_TIMEOUT))
-        sys.exit()
-except ValueError:
-    print("This program only accepts integers!")
-    sys.exit()
-
-
-
-with socket.socket() as s :
-    s.bind((HOST, PORT))        # bind the server socket to HOST and PORT_NUMBER
-    print("Server hostname:", HOST, "port:", PORT)
-
-    s.listen(numClient) # enable server socket to listen to client's requests
-
-
-    # a forever loop until client wants to exit
-
+def startConnections(timeout, s):
     try:
-        s.settimeout(timeout)
         (conn, addr) = s.accept()
 
         # accept client request
@@ -108,11 +78,48 @@ with socket.socket() as s :
         # only alive as long as s is alive
 
 
-        t= threading.Thread(target = respond, args = (conn,))
-        threads.append(t)
+        t= threading.Thread(target = respond, args = (conn,addr))
         t.start()
         t.join()
 
     except socket.timeout:     	# exception when the timer times out
-        print("No client. Socket timeout. Release the socket.")
-        
+        print("No request from client. Socket timeout. Release the socket.")
+
+
+def main():
+    if len(sys.argv) != 3 :
+        print("This program accepts 2 arguments from CLI!")
+        sys.exit()
+
+    threads = []
+    # get number of client and timer from CLI
+    try:
+        numClient  = int(sys.argv[1])
+        timeout     = int(sys.argv[2])
+        if numClient > MAXCLIENT:
+            print("This program accepts up to " + str(MAXCLIENT) + " clients please")
+            sys.exit()
+        if timeout < MIN_TIMEOUT or timeout > MAX_TIMEOUT:
+            print("This program accepts a timer between " + str(MIN_TIMEOUT) + " and " + str(MAX_TIMEOUT))
+            sys.exit()
+    except ValueError:
+        print("This program only accepts integers!")
+        sys.exit()
+
+
+    with socket.socket() as s :
+        s.bind((HOST, PORT))        # bind the server socket to HOST and PORT_NUMBER
+        # print("Server hostname:", HOST, "port:", PORT)
+
+        s.listen()              # enable server socket to listen to client's requests
+        s.settimeout(timeout)   # raise exception if there's no when there's no incoming client from accept() method. Even when there's a connection establisn already
+
+        for i in range(numClient):
+            t= threading.Thread(target = startConnections, args = (timeout, s,))
+            threads.append(t)
+            t.start()
+
+        for t in threads:
+            t.join()
+
+main()
