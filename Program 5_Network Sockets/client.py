@@ -70,7 +70,6 @@ with socket.socket() as s :
         plt.plot(dataSet[0], dataSet[1])
         plt.show()
 
-
         # print menu and prompt arguments from user again
         displayMenu()
         user_input = processInput()   # tuple of choice and argsList

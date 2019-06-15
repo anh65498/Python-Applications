@@ -5,12 +5,16 @@ import socket
 import sys          # to accept command line arguments
 import numpy as np
 import pickle
+import threading
 
 # Global constant
 HOST = '127.0.0.1'
 PORT = 5555
 DATA_POINTS = 50
-# DATA_POINTS = 10
+MAXCLIENT = 4
+MIN_TIMEOUT = 10
+MAX_TIMEOUT = 30
+
 
 def printMinMax(funct):
     '''Purpose: print the max and min of the return values of a function'''
@@ -32,33 +36,17 @@ def power(exponent, min, max):
 def sine(frequency):
     arr =  np.linspace(0, 1, DATA_POINTS)
     # send the array back to client
-    return (arr, np.sin(arr))
+    return (arr, np.sin(frequency * 2 * np.pi * arr))
 
-
-if len(sys.argv) != 3 :
-    print("This program accepts 2 arguments from CLI!")
-    sys.exit()
-
-try:
-    max_client  = int(sys.argv[1])
-    timeout     = int(sys.argv[2])
-except ValueError:
-    print("This program only accepts integers!")
-    sys.exit()
-
-
-with socket.socket() as s :
-
-    s.bind((HOST, PORT))        # bind the server socket to HOST and PORT_NUMBER
-    print("Server hostname:", HOST, "port:", PORT)
-
-    s.listen()                  # enable server socket to listen to client's requests
-    (conn, addr) = s.accept()   # accept client request
-    # 'conn' is a new socket object that is used by the server to send and receive data with the client
-    # 'addr' is the address bound to the client socket
+def respond(conn):
+    '''
+    Purpose: target function of thread, receive and send data to client request
+    Params: conn - socket
+    '''
     while True:
         fromClient = conn.recv(1024)  # receive a tuple of graph type and argument list) from client
         user_input = pickle.loads(fromClient)
+
         print("From client:", addr)
         print("Received:", user_input)
 
@@ -75,6 +63,56 @@ with socket.socket() as s :
         elif graphType == 's':
             dataSet = sine(*argsList)
 
-        # send back data set to server
+        # send back data set to client
         bstring = pickle.dumps(dataSet)
         conn.send(bstring)
+
+# main()
+if len(sys.argv) != 3 :
+    print("This program accepts 2 arguments from CLI!")
+    sys.exit()
+
+threads = []
+try:
+    numClient  = int(sys.argv[1])
+    timeout     = int(sys.argv[2])
+    if numClient > MAXCLIENT:
+        print("This program accepts up to " + str(MAXCLIENT) + " clients please")
+        sys.exit()
+    if timeout < MIN_TIMEOUT or timeout > MAX_TIMEOUT:
+        print("This program accepts a timer between " + str(MIN_TIMEOUT) + " and " + str(MAX_TIMEOUT))
+        sys.exit()
+except ValueError:
+    print("This program only accepts integers!")
+    sys.exit()
+
+
+
+with socket.socket() as s :
+    s.bind((HOST, PORT))        # bind the server socket to HOST and PORT_NUMBER
+    print("Server hostname:", HOST, "port:", PORT)
+
+    s.listen(numClient) # enable server socket to listen to client's requests
+
+
+    # a forever loop until client wants to exit
+
+    try:
+        s.settimeout(timeout)
+        (conn, addr) = s.accept()
+
+        # accept client request
+        # accept() is blocking, it waits until there is a request from a client.
+        # 'conn' is a new socket object that is used by the server to send and receive data with the client
+        # 'addr' is the address bound to the client socket
+        # only alive as long as s is alive
+
+
+        t= threading.Thread(target = respond, args = (conn,))
+        threads.append(t)
+        t.start()
+        t.join()
+
+    except socket.timeout:     	# exception when the timer times out
+        print("No client. Socket timeout. Release the socket.")
+        
