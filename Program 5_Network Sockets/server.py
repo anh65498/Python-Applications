@@ -36,8 +36,7 @@ def power(conn, exponent, min, max):
     arr         =  np.linspace(min, max, DATA_POINTS)
     output_arr  = arr**exponent
     # send the array back to client
-    plot_title = "x^" + str(exponent) + " for x=" + str(min) + " to " + str(max)
-    bstring = pickle.dumps((arr, output_arr, plot_title))
+    bstring = pickle.dumps((arr, output_arr))
     conn.send(bstring)
     return output_arr
 
@@ -50,49 +49,36 @@ def sine(conn, frequency):
     '''
     arr         =  np.linspace(0, 1, DATA_POINTS)
     output_arr  = np.sin(frequency * 2 * np.pi * arr)
-
-    plot_title  =  "sine " + str(frequency) + "x"
     # send the array back to client
-    bstring = pickle.dumps((arr, output_arr, plot_title))
+    bstring = pickle.dumps((arr, output_arr))
     conn.send(bstring)
     return output_arr
 
 
 
-def startConnections(s):
+def startConnections(conn):
     '''
     Purpose: time client's response. Any client out of max number of clients created without a response within timeout second will be released
              if there's client reponse within time limit, receive and send data to client request
-    Params: timeeout - time limit for each client to send response to server
-            s - server socket
+    Params: s - server socket
     '''
-    try:
-        (conn, addr) = s.accept()       # accept client request
-        # accept() is blocking, it waits until there is a request from a client.
-        # 'conn' is a new socket object that is used by the server to send and receive data with the client
-        # 'addr' is the address bound to the client socket
-        # only alive as long as s is alive
+    while True:
+        fromClient = conn.recv(1024)  # receive a tuple of graph type and argument list from client
+        user_input = pickle.loads(fromClient)
 
+        # get choice and args for graph from client
+        if user_input[0] == 'q':
+            conn.close()
+            break
 
-        while True:
-            fromClient = conn.recv(1024)  # receive a tuple of graph type and argument list from client
-            user_input = pickle.loads(fromClient)
+        graphType, argsList = user_input     # (menu_choice, argsList)
 
-            # get choice and args for graph from client
-            if user_input[0] == 'q':
-                conn.close()
-                break
+        # run function to send data back to client depending on client's graph choice
+        if graphType == 'p':
+            power(conn, *argsList)
+        elif graphType == 's':
+            sine(conn, *argsList)
 
-            graphType, argsList = user_input     # (menu_choice, argsList)
-
-            # run function to send data back to client depending on client's graph choice
-            if graphType == 'p':
-                power(conn, *argsList)
-            elif graphType == 's':
-                sine(conn, *argsList)
-
-    except socket.timeout:     	# exception when the timer times out
-        print("No request from client. Connection socket timeout. Release the socket.")
 
 
 def main():
@@ -108,7 +94,7 @@ def main():
     try:
         numClient  = int(sys.argv[1])
         timeout     = int(sys.argv[2])
-        if numClient > MAXCLIENT:
+        if numClient > MAXCLIENT or numClient < 1:
             print("This program accepts up to " + str(MAXCLIENT) + " clients please")
             sys.exit()
         if timeout < MIN_TIMEOUT or timeout > MAX_TIMEOUT:
@@ -122,16 +108,24 @@ def main():
     with socket.socket() as s :
         s.bind((HOST, PORT))        # bind the server socket to HOST and PORT_NUMBER
         print("Server is up. Server's hostname:", HOST, ", port:", PORT)
-
         s.listen()              # enable server socket to listen to client's requests
-        s.settimeout(timeout)   # raise exception if there's no when there's no incoming client from accept() method. Even when there's a connection establisn already
+        try:
+            s.settimeout(timeout)   # raise exception if there's no when there's no incoming client from accept() method. Even when there's a connection establisn already
+            (conn, addr) = s.accept()       # accept client request
+            # accept() is blocking, it waits until there is a request from a client.
+            # 'conn' is a new socket object that is used by the server to send and receive data with the client
+            # 'addr' is the address bound to the client socket
+            # only alive as long as s is alive
 
-        for i in range(numClient):
-            t= threading.Thread(target = startConnections, args = (s,))
-            threads.append(t)
-            t.start()
+            for i in range(numClient):
+                t= threading.Thread(target = startConnections, args = (conn,))
+                threads.append(t)
+                t.start()
 
-        for t in threads:
-            t.join()
+            for t in threads:
+                t.join()
+        except socket.timeout:     	# exception when the timer times out
+            print("No request from client. Connection socket timeout. Release the socket.")
+
 
 main()

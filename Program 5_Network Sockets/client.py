@@ -17,13 +17,12 @@ def displayMenu():
 def processInput():
     '''
     Purpose: input validation
-    Return: a tuple of menu choice and list of integers from client
+    Return: a tuple of menu choice and list of integers from client and plot's title
     '''
     menu_choice = None
 
     while menu_choice not in ['p', 'q', 's']:
         menu_choice = input("Enter choice or q to quit: ")
-
     if menu_choice == 'p':
         argsList = validateInput("Enter exponent, min-x, max-x: ", 3)
     elif menu_choice == 's':
@@ -67,7 +66,11 @@ def main():
             dataSet = pickle.loads(fromServer)
 
             # plot the data set with matplotlib
-            plt.title(dataSet[2])
+            if user_input[0] == 'p':
+                plt.title("x^" + str(user_input[1][0]) + " for x=" + str(user_input[1][1]) + " to " + str(user_input[1][2]))
+            elif user_input[0] == 's':
+                plt.title("sine " + str(user_input[1][0]) + "x")
+
             plt.plot(dataSet[0], dataSet[1])
             plt.xlabel("x")
             plt.show()
@@ -77,5 +80,7 @@ def main():
             user_input = processInput()   # tuple of choice and argsList
             bstring = pickle.dumps(user_input)
             s.send(bstring)	# send mesg to server
+
+            # Format the choice and supporting input into text string. This text string is the request that's sent to the server.
 
 main()
