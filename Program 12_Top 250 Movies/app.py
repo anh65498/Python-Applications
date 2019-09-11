@@ -5,6 +5,7 @@
 # Future features:
 # create an option to search for movie
 # use threading to fetch data from 3 pages
+# line 70
 
 import requests
 from bs4 import BeautifulSoup
@@ -17,10 +18,12 @@ from tkinter import ttk
 # main window
 class MainWin(tk.Tk):
     def __init__(self):
+
         self.conn = sqlite3.connect("movieDB.db")
         self.cur  = self.conn.cursor()
+        start = time.time()
         self.createDB()
-
+        print("***** Total elapsed time: {:.2f}s".format(time.time()-start))  # 0.15s to fetch all data in iterator-style
         super().__init__()
         self.geometry("500x550+400+50")
         self.title("Top 250 Movie Database")
@@ -52,18 +55,22 @@ class MainWin(tk.Tk):
 
     def view(self, type):
         ''' Purpose : fetch data by type, display it '''
-        # set header
+        # set header and clear table
         self.tree.heading(1, text="Rank")
+        self.tree.delete(*self.tree.get_children())
+
         if type == "id":
             self.tree.heading(2, text="Name")
+            self.cur.execute('''SELECT name FROM Movies ORDER BY {} ASC'''.format(type))
         else:
             self.tree.heading(2, text=type.title())
+            self.cur.execute('''SELECT name, {} FROM Movies ORDER BY {} ASC'''.format(type, type))
 
         # fetch data from DB and display
-        self.cur.execute('''SELECT name FROM Movies ORDER BY {} ASC'''.format(type))
-        self.tree.delete(*self.tree.get_children())
-        for count, movie in enumerate(self.cur.fetchall(), start=1):
-            self.tree.insert('', 'end', values = ( count, movie[0] ) )
+
+
+        for count, *movie in enumerate(self.cur.fetchall(), start=1):
+            self.tree.insert('', 'end', values = ( count, *movie ) )
 
 
     def createDB(self):
@@ -100,22 +107,19 @@ class MainWin(tk.Tk):
             ratings   = [float(m.find("div").find("div")["data-value"]) for m in movie]
 
             length  = [int(re.search(pattern, m.find('p').select(".runtime")[0].get_text()).group(0)) for m in movie ]           # some movie has undefined lenght
-            # length  = [int(re.search(pattern, m.find('p').find_all("span")[2].get_text()).group(0)) for m in movie ]           # some movie has undefined lenght
 
             # print("***** Total elapsed time: {:.2f}s".format(time.time()-start))  # 0.15s to fetch all data in iterator-style
 
             # zip
             data = tuple(zip(title,year,director,ratings,length))
-            # for i in data:
-            #     print(i)
 
             for movie in data:
                 self.cur.execute('''INSERT INTO Movies
                                 (name, year, director, rating, length)
                                 VALUES (?,?,?,?,?)''', (movie))
 
-            self.cur.execute('''SELECT name FROM Movies WHERE name LIKE '%father' ''')
-            print(self.cur.fetchone() )
+            # self.cur.execute('''SELECT name FROM Movies WHERE name LIKE '%father' ''')
+            # print(self.cur.fetchone() )
 
     def _close(self):
         ''' Purpose: Before destroying the window, close the connection to DB '''
