@@ -32,7 +32,7 @@ cd in Command Line Tool to the directory that contain all the .py file before ru
 
 ### Main Menu:
 
-![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/main_menu.png)
+![main_menu](https://github.com/anh65498/Python-Applications/blob/master/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/main_menu.png)
 
 ### Plots:
 #### When user click on "Plot Tuition Trend" button
@@ -40,13 +40,13 @@ cd in Command Line Tool to the directory that contain all the .py file before ru
 
 #### When user click on "Plot Room and Board Trend" button
 
-![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/room_and_board.png)
+![room_and_board](https://github.com/anh65498/Python-Applications/blob/master/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/room_and_board.png)
 
 ### College Paths:
 #### When user click on "Plot College Cost" button and they enter invalid year
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input.png)
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input_1.png)
-![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/error_msg.png)
+![error_msg.png](https://github.com/anh65498/Python-Applications/blob/master/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/error_msg.png)
 
 #### When user click on "Plot College Cost" button and they enter valid year. E.g.: 2000
 ![alt text](https://github.com/anh65498/Python-Applications/blob/master/Programs/Program%202_Data%20Vis%20and%20GUI/Photos%20for%20readme/user_input_2.png)
