@@ -1,30 +1,44 @@
-# Movie Database GUI Application	
+# Movie Database GUI Application
 
 This program first builds a local database by scraping IMDB website for top 250 movies of all time.
-Through a simple GUI window, users can easily 
-	1. See top 250 imdb rated movies ordered and filtered them by rating, runtime, and year and range
-		+ View by desceding ranking
-			![ranking]()
-		+ View the movies between 1995 and 2000 
-			![year_range]()
-	2. See the trend of movies over the year via graphs
-		+ Scatterplot for average movie runtime per year (movies are getting longer as time passes)
-			![average_runtime_per_year]()
-		+ Histogram for runtime distribution of 250 top movies (the most popular length is 120 minutes)
-		+ Histogram for release year distribution (the most popular release year is 2010)
-	3. Search movie. Enter any movie name you want to look up for information and poster
+Through a simple GUI window,
+
+	![main_menu] https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/main_menu.png
+
+users can easily
+
+1. See top 250 IMDB rated movies ordered and filtered them by rating, runtime, and year and range
+
+	+ View by desceding ranking
+			![ranking](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/ranking.png)
+
+	+ View the movies between 1995 and 2000
+			![year_range](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/year_range.png)
+
+2. See the trend of movies over the year via graphs
+
+	+ Scatterplot for average movie runtime per year (movies are getting longer as time passes)
+			![average_runtime_per_year](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/average_runtime_per_year.png)
+
+	+ Histogram for runtime distribution of 250 top movies (the most popular length is 120 minutes)
+
+	+ Histogram for release year distribution (the most popular release year is 2010)
+
+3. Search movie. Enter any movie name you want to look up for information and poster
+	- Allow user to search local database and OMDB API for any movie using the search bar.
 		+ Example: Search all movies whose title contain "room"
-			![search_room]()
+			![search_room](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/search_room.png)
+	- Display movie poster and other movie data such as title, runtime, year and more. Allow user to save movie data as a text file
 		+ Example: Choose "The Room" for more information. Click "Save" to save the movie's information to a text file anywhere on their computer.
-			![room]()
+			![room](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/room.png)
 
 
 
 ## Getting Started
-### Prerequisite
+#### Prerequisite
 +  Python3
 
-## How to run
+#### How to run
 
 1. Download this project to your local computer.
 
@@ -35,30 +49,8 @@ Through a simple GUI window, users can easily
 ## Troubleshooting
 
 - If the program freeze and you want to shut down, in your terminal, press Control + C.
-## Structure
 
-MainWin
-   |
-   |---MovieListWin
-   |          desc : allow user to see top 250 imdb rated movies ordered and
-   |                 filtered by rating, runtime, and year
-   |
-   |---PlotMenuWin
-   |      |   desc : allow user to choose from 3 plots showing movie data trends
-   |      |
-   |      |---ScatterPlotWin
-   |      |      desc : plot a scatter plot graph with a linear trendline
-   |      |
-   |      |---HistogramPlotWin
-   |             desc : plot a histogram graph showing distribution of data (bell curve)
-   |
-   |---SearchWin
-          |   desc : allow user to search local database and omdb API for any movie using the search bar,
-          |          then display matching search results in a list for user to select.
-          |
-          |---MovieDataWin
-                 desc : display movie poster and other movie data such as title, runtime, year and more.
-                        allow user to save movie data as a text file with file name beign the movie name
+
 
 ## Dependencies
 
