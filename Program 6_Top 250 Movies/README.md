@@ -3,22 +3,25 @@
 This program first builds a local database by scraping IMDB website for top 250 movies of all time.
 Through a simple GUI window,
 
-	![main_menu] https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/main_menu.png
+	![main_menu](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/main_menu.png)
 
 users can easily
 
 1. See top 250 IMDB rated movies ordered and filtered them by rating, runtime, and year and range
 
 	+ View by desceding ranking
-			![ranking](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/ranking.png)
+		
+		![ranking](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/ranking.png)
 
 	+ View the movies between 1995 and 2000
-			![year_range](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/year_range.png)
+		
+		![year_range](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/year_range.png)
 
 2. See the trend of movies over the year via graphs
 
 	+ Scatterplot for average movie runtime per year (movies are getting longer as time passes)
-			![average_runtime_per_year](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/average_runtime_per_year.png)
+		
+		![average_runtime_per_year](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/average_runtime_per_year.png)
 
 	+ Histogram for runtime distribution of 250 top movies (the most popular length is 120 minutes)
 
@@ -30,6 +33,7 @@ users can easily
 			![search_room](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/search_room.png)
 	- Display movie poster and other movie data such as title, runtime, year and more. Allow user to save movie data as a text file
 		+ Example: Choose "The Room" for more information. Click "Save" to save the movie's information to a text file anywhere on their computer.
+			
 			![room](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/room.png)
 
 
