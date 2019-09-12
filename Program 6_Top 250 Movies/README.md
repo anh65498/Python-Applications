@@ -28,10 +28,10 @@ users can easily
 	+ Histogram for release year distribution (the most popular release year is 2010)
 
 3. Search movie. Enter any movie name you want to look up for information and poster
-	- Allow user to search local database and OMDB API for any movie using the search bar.
+	- Allows user to search local database and OMDB API for any movie using the search bar.
 		+ Example: Search all movies whose title contain "room"
 			![search_room](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/search_room.png)
-	- Display movie poster and other movie data such as title, runtime, year and more. Allow user to save movie data as a text file
+	- Displays movie poster and other movie data such as title, runtime, year and more. Allows user to save movie data as a text file
 		+ Example: Choose "The Room" for more information. Click "Save" to save the movie's information to a text file anywhere on their computer.
 			
 			![room](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/room.png)
