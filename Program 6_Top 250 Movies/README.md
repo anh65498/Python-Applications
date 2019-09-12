@@ -9,7 +9,7 @@ users can easily
 
 1. See top 250 IMDB rated movies ordered and filtered them by rating, runtime, and year and range
 
-	+ View by desceding ranking
+	+ View by descending ranking
 		
 		![ranking](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/ranking.png)
 
