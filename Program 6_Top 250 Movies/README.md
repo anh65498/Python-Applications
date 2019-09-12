@@ -3,7 +3,7 @@
 This program first builds a local database by scraping IMDB website for top 250 movies of all time.
 Through a simple GUI window,
 
-	![main_menu](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/main_menu.png)
+![main_menu](https://github.com/anh65498/Python-Applications/blob/master/Program%206_Top%20250%20Movies/Photos_for_readme/main_menu.png)
 
 users can easily
 
