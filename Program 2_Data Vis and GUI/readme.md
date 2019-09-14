@@ -1,4 +1,4 @@
-# College Prices Analyzer and Visualizer
+# College Tuition Trend Analyzer and Visualizer
 
 From CSV input file (tuition.csv) that contains data of average Tuition and Fees and Room and Board in 2018 Dollars, this program lets the user view the tuition trend, the room and board trend, and the total cost of 4 years of college of 4 college path for a range of year (1971-72 to 2018-19)
 
